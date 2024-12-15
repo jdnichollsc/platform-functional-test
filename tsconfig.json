@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "types": ["vitest/globals"]
+  }
+}
