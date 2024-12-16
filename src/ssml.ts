@@ -14,6 +14,7 @@
 /** Parses SSML to a SSMLNode, throwing on invalid SSML */
 export function parseSSML(ssml: string): SSMLNode {
   // NOTE: Don't forget to run unescapeXMLChars on the SSMLText
+  const cleanSSML = ssml.trim();
   return {
     name: '',
     attributes: [],
@@ -23,7 +24,14 @@ export function parseSSML(ssml: string): SSMLNode {
 
 /** Recursively converts SSML node to string and unescapes XML chars */
 export function ssmlNodeToText(node: SSMLNode): string {
-  return ''
+  if (typeof node === 'string') {
+    return unescapeXMLChars(node);
+  } else if (node.children) {
+    return node.children.reduce<string>((result, child) => {
+      return result + ssmlNodeToText(child);
+    }, '');
+  }
+  return '';
 }
 
 // Already done for you
