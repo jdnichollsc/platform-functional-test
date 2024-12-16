@@ -24,13 +24,51 @@ export function createLRUCacheProvider<T>({
   ttl,
   itemLimit,
 }: LRUCacheProviderOptions): LRUCacheProvider<T> {
+  const cacheData = new Map();
+  const cacheDate = new Map();
+  const keysQueue: Array<string> = [];
+
+  const hasKey = (key: string) => cacheData.has(key) && cacheDate.has(key);
+  const updateDateByKey = (key: string) => {
+    cacheDate.set(key, Date.now());
+    keysQueue.splice(keysQueue.indexOf(key), 1)
+    keysQueue.push(key)
+  }
+
   return {
     has: (key: string) => {
-      return false
+      if (hasKey(key)) {
+        if (Date.now() - cacheDate.get(key) < ttl) {
+          updateDateByKey(key);
+          return true;
+        } else {
+          cacheData.delete(key);
+          cacheDate.delete(key);
+        }
+      }
+      return false;
     },
     get: (key: string) => {
-      return undefined
+      if (hasKey(key)) {
+        if (Date.now() - cacheDate.get(key) < ttl) {
+          updateDateByKey(key);
+          return cacheData.get(key);
+        } else {
+          cacheData.delete(key);
+          cacheDate.delete(key);
+        }
+      }
+      return undefined;
     },
-    set: (key: string, value: T) => {},
+    set: (key: string, value: T) => {
+      if (keysQueue.length >= itemLimit) {
+        const firstKey = keysQueue.shift();
+        cacheData.delete(firstKey);
+        cacheDate.delete(firstKey);
+      }
+      cacheData.set(key, value)
+      cacheDate.set(key, Date.now())
+      keysQueue.push(key);
+    },
   }
 }
