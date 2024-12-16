@@ -1,4 +1,4 @@
-# Speechify Platform Functional Test
+# Platform Functional Test
 
 ## Project Overview
 
@@ -11,7 +11,7 @@ The project's goal is to implement an LRU Cache Provider, an SSML Parser, and a 
 ### Implementation Checklist
 
 - [x] createLRUCacheProvider: Implement a LRU Cache Provider with `get`, `has` and `set` methods.
-- [ ] parseSSML: Implement a SSML Parser that takes a SSML string and returns a SSML Node Tree.
+- [x] parseSSML: Implement a SSML Parser that takes a SSML string and returns a SSML Node Tree.
 - [x] ssmlNodeToText: Implement a function that takes a SSML Node Tree and recursively converts it to a plain text string.
 
 ### Setup & Run

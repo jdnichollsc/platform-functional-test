@@ -1,5 +1,5 @@
 {
-  "name": "speechify-platform-functional-test",
+  "name": "platform-functional-test",
   "type": "module",
   "license": "MIT",
   "scripts": {
